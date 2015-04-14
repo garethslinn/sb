@@ -8,7 +8,7 @@
 Ensure you have Gulp installed:
 
 ```bash
-sudo npm install -g gulp
+npm install -g gulp
 ```
 
 # Setup the project
@@ -32,6 +32,12 @@ To build the static files:
 gulp
 ```
 
+To lint:
+
+```bash
+gulp lint
+```
+
 To build just the JavaScripts:
 
 ```bash
@@ -50,4 +56,4 @@ To build just the css:
 gulp compass
 ```
 
-# sb 
+
