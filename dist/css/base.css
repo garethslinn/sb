@@ -1,0 +1,21 @@
+.container .img {
+  max-height: 200px;
+  margin-bottom: 20px;
+  position: relative;
+  width: 100%;
+}
+.container input[checkbox] {
+  width: 20px;
+  height: 20px;
+}
+.container .holder {
+  cursor: pointer;
+  max-height: 200px;
+  margin-bottom: 10px;
+  min-height: 200px;
+  overflow: hidden;
+  opacity: 0.5;
+}
+.container .selected {
+  opacity: 1;
+}

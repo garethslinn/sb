@@ -1,0 +1,19 @@
+{
+  "name": "sainsburys-test",
+  "version": "0.0.1",
+  "description": "A flickr feed test",
+  "main": "",
+  "repository": {
+    "type": "git"
+  },
+  "author": "Gareth Slinn",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-compass": "^2.0.4",
+    "gulp-concat": "^2.4.2",
+    "gulp-jshint": "^1.10.0",
+    "gulp-rename": "^1.2.0",
+    "gulp-ruby-sass": "^1.0.1",
+    "gulp-uglify": "^1.0.2"
+  }
+}
