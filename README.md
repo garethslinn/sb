@@ -41,7 +41,7 @@ gulp lint
 To build just the JavaScripts:
 
 ```bash
-gulp scripts:sainsburys
+gulp scripts:game
 ```
 
 To build just the Vendor JavaScripts:
@@ -57,3 +57,4 @@ gulp compass
 ```
 
 
+# game 
