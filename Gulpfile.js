@@ -2,7 +2,6 @@
  * Created by Gareth Slinn April 2015
  */
 
-
 var gulp = require('gulp');
 var sass = require( 'gulp-ruby-sass' );
 var path = require( 'path' );
@@ -25,7 +24,7 @@ var config = {
     }
 };
 gulp.task('default', function() {
-    // place code for your default task here
+    // No current default tasks
 });
 
 gulp.task('compass', function(){
@@ -40,7 +39,6 @@ gulp.task('compass', function(){
 });
 
 gulp.task('scripts:vendor', function() {
-
     return gulp
         .src( config.scripts.jsVendorSrc )
         .pipe( concat( config.scripts.outputVendorName ) )
@@ -50,11 +48,9 @@ gulp.task('scripts:vendor', function() {
         .pipe( gulp.dest( config.scripts.dest ) );
 });
 
-gulp.task('scripts:sainsburys', function() {
+gulp.task('scripts:game', function() {
     return gulp
         .src( config.scripts.jsSrc )
-        //.pipe( jshint( config.scripts.jshintrc) )
-        //.pipe( jshint.reporter( 'default' ) )
         .pipe( concat( config.scripts.outputName ) )
         .pipe( gulp.dest( config.scripts.dest ) )
         .pipe( uglify() )

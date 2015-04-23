@@ -1,76 +1,150 @@
-/**
- * Created by Gareth Slinn April 2015
- */
+var modules = modules || {};
+modules.Rps = modules.Rps || {};
+modules.Rps = (function($){
 
-//NOTE: Due to callback is using jsonp cb must be in the global scope.
-(function(){
-    var tags='london';
-    var script = document.createElement('script');
-    script.src='http://api.flickr.com/services/feeds/photos_public.gne?format=json&jsoncallback=sainsburys.cb&tags='+tags;
-    document.head.appendChild(script);
-})();
+    'use strict';
 
-var sainsburys = (function( $ ) {
-    return {
-
-        storage: {
-            set: function (key, value) {
-                if (typeof localStorage === "object") {
-                    localStorage.setItem(key, JSON.stringify(value));
-                }
-            },
-            get: function (key) {
-                if (typeof localStorage === "object") {
-                    if (JSON.parse(localStorage.getItem(key))) {
-                        return JSON.parse(localStorage.getItem(key));
-                    }
-                }
-            },
-            del: function (key) {
-                if (typeof localStorage === "object") {
-                    localStorage.removeItem(key);
-                }
-            }
-        },
-
-        cb: function (data) {
-            var row = $('.row');
-            var selected = [];
-            var img;
-            var storage = sainsburys.storage;
-
-            $(data.items).each(function () {
-                img = this.media.m.split("/").pop();
-                selected.push(img.slice(0, -4));
-                row.append('<div id="' + img.slice(0, -4) + '" class="holder col-sm-4"><img class="img" src="' + this.media.m + '" /></div>');
-            });
-
-            var holder = $('.holder');
-            var checkSelected = function (id, el) {
-                if (storage.get(id)) {
-                    el.addClass('selected');
-                    //alert('this is selected')
-                }
-            };
-
-            holder.on('click', function () {
-                $(this).toggleClass('selected');
-                var id = $(this).attr('id');
-                if ($(this).hasClass('selected')) {
-                    console.log('yes');
-                    storage.set(id, true);
-                } else {
-                    storage.del(id);
-                }
-
-            });
-
-            holder.each(function () {
-                checkSelected($(this).attr('id'), $(this));
-            });
-
-        }
-
+    var config = {
+        body : $('body'),
+        scoreBoard : $('.score'),
+        choice : $('.choice a'),
+        reset: $('.reset'),
+        options : ['rock', 'paper', 'scissors'],
+        imgOne: $('.one .img'),
+        imgTwo: $('.two .img'),
+        humanMode: $('.mode .human'),
+        computerMode: $('.mode .computer'),
+        auto: $('.auto')
     };
 
-})( jQuery );
+    function Rps() {
+        this.events();
+    }
+
+    Rps.prototype.computerChoice = function () {
+        return Math.floor(Math.random() * 3);
+    };
+
+    Rps.prototype.automatic = function () {
+        var that = this;
+        setTimeout(function(){
+            that.selection($('.'+config.options[that.computerChoice()]), config.options[that.computerChoice()]);
+            config.auto.hide();
+        }, 1000);
+    };
+
+    Rps.prototype.selection = function (el) {
+        config.choice.hide();
+        var cn = el.attr('class');
+        config.imgOne.removeClass().addClass('img '+cn+'-img');
+        this.test(cn, config.options[this.computerChoice()]);
+    };
+
+    Rps.prototype.showChoice = function () {
+        config.choice.show();
+        config.reset.hide();
+    };
+
+    Rps.prototype.showAuto = function () {
+        config.choice.hide();
+        config.reset.hide();
+        config.auto.show();
+    };
+
+    Rps.prototype.hideAuto = function () {
+        config.choice.show();
+        config.reset.hide();
+        config.auto.hide();
+    };
+    Rps.prototype.setMode = function () {
+        config.computerMode.removeClass('selected');
+        config.humanMode.addClass('selected');
+    };
+    Rps.prototype.reset = function () {
+        config.imgOne.removeClass().addClass('img ');
+        config.imgTwo.removeClass().addClass('img ');
+        config.scoreBoard.text('');
+        this.showChoice();
+    };
+
+    Rps.prototype.score = function (player,cn,draw) {
+        var that = this, message;
+        if (draw) {
+            message = 'This was a draw';
+        } else {
+            message = 'Player ' + player + ' wins!';
+        }
+        setTimeout(function(){
+            config.imgTwo.removeClass().addClass('img '+cn+'-img');
+            config.reset.show();
+            config.scoreBoard.append(message);
+            that.setMode();
+        }, 1000);
+    };
+
+    Rps.prototype.test = function (aa,bb) {
+        if (aa === bb ) {
+            this.score('1',bb,true);
+        } else if (aa === "rock") {
+            if (bb === "scissors") {
+                console.log("rock wins");
+                this.score('1',bb,false);
+            } else {
+                console.log("paper wins");
+                this.score('2',bb,false);
+            }
+        }
+        if (aa === "paper") {
+            if (bb === "rock") {
+                console.log("paper wins");
+                this.score('1',bb,false);
+            } else {
+                if (bb === "scissors") {
+                    console.log("scissors wins");
+                    this.score('2',bb,false);
+                }
+            }
+        }
+        if (aa === "scissors") {
+            if (bb === "rock") {
+                console.log("rock wins");
+                this.score('2',bb,false);
+            } else {
+                if (bb === "paper") {
+                    console.log("scissors wins");
+                    this.score('1',bb,false);
+                }
+            }
+        }
+    };
+
+    Rps.prototype.events = function () {
+        var that = this;
+        config.reset.on("click", function () {
+            that.setMode();
+            that.reset();
+        });
+        config.choice.on("click", function (e) {
+            e.preventDefault();
+            that.selection($(this));
+        });
+        config.computerMode.on("click", function () {
+            config.humanMode.removeClass('selected');
+            config.computerMode.addClass('selected');
+            that.reset();
+            that.showAuto();
+            that.automatic();
+        });
+        config.humanMode.on("click", function () {
+            config.humanMode.addClass('selected');
+            config.computerMode.removeClass('selected');
+            that.reset();
+            that.hideAuto();
+        });
+    };
+
+    return Rps;
+})(jQuery);
+
+modules.Rps = new modules.Rps();
+

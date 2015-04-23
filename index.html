@@ -1,16 +1,39 @@
 <!doctype html>
-<html>
-<title>Sanisburys Flickr Example</title>
+<html class="no-js" lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="dist/css/bootstrap.css" type="text/css" />
-    <link rel="stylesheet" href="dist/css/base.css" type="text/css" />
-    <script src="dist/js/vendor.js"></script>
+	<title>Rock, paper, scissors game</title>
+	<meta name="description" content="a quick demo for rock, paper, scissors">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="dist/css/base.css" type="text/css" />
+	<script src="dist/js/vendor.min.js"></script>
 </head>
 <body>
+
 <div class="container">
-    <div class="row"></div>
+	<h1>Rock, Paper, Scissors</h1>
+	<div class="score"></div>
+	<div class="player one">
+		<span class="title">Player 1</span>
+		<span class="img"></span>
+	</div>
+	<div class="player two">
+		<span class="title">Player 2</span>
+		<span class="img"></span>
+	</div>
 </div>
+<div class="choice">
+	<a class="rock" href="">Rock</a>
+	<a class="paper" href="">Paper</a>
+	<a class="scissors" href="">Scissors</a>
+	<button class="reset">Play again</button>
+	<div class="auto">Computer mode</div>
+</div>
+<div class="mode">
+	<button class="selected human">Human</button>
+	<button class="computer">Computer</button>
+</div>
+
 <script src="dist/js/all.min.js"></script>
 </body>
 </html>
